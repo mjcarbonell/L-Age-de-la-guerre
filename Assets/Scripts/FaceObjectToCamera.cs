@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro; 
+public class FaceObjectToCamera : MonoBehaviour
+{
+    [SerializeField]
+    private TextMeshPro potText; 
+    [SerializeField]
+    private EnemyController enemyController;
+
+    void Start(){
+        enemyController = transform.parent.GetComponent<EnemyController>();
+    }
+    void Update(){
+        // Changing text of Pot Text 
+        potText.text = $"Health: {enemyController.Health}"; 
+        Camera[] allCameras = Camera.allCameras;
+        Camera closestCam = null;
+        float closestDist = float.MaxValue; 
+        foreach (Camera cam in allCameras)
+        {
+            if (cam.enabled){
+                float dist = Vector3.Distance(transform.position, cam.transform.position);
+                if (dist < closestDist)
+                {
+                    closestDist = dist;
+                    closestCam = cam;
+                }
+            }
+        }
+        if (closestCam != null){
+            transform.LookAt(closestCam.transform);
+            transform.Rotate(0, 0, 0);
+        }
+    }
+}
