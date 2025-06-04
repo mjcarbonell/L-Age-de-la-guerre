@@ -28,16 +28,8 @@ public class EnemyController : MonoBehaviour
             agent.SetDestination(transform.position); 
             if (Time.time - lastAttackTime >= attackCooldown)
             {
-                Attack();
+                animator.SetTrigger("attack");
                 // towerManager.takeDamage();
-                if (target.tag == "TargetEnemy" || target.tag == "TargetPlayer"){
-                    TowerManager towerManager = target.parent.GetComponent<TowerManager>(); 
-                    towerManager.takeDamage(); 
-                }
-                else if (target.tag == "EnemyCaveMan" || target.tag == "CaveManPlayer"){
-                    EnemyController enemyController = target.GetComponent<EnemyController>();
-                    enemyController.TakeDamage(); 
-                }
                 lastAttackTime = Time.time;
             }
         }
@@ -51,8 +43,20 @@ public class EnemyController : MonoBehaviour
             animator.SetFloat("speed", 0);
         }
     }
-    void Attack(){
-        animator.SetTrigger("attack"); // Make sure your enemy animator has an "attack" trigger
+    public void ApplyDamage(){
+        if (target == null) return;
+        if (target.tag == "TargetEnemy" || target.tag == "TargetPlayer")
+        {
+            TowerManager towerManager = target.parent.GetComponent<TowerManager>();
+            if (towerManager != null)
+                towerManager.takeDamage();
+        }
+        else if (target.tag == "EnemyCaveMan" || target.tag == "CaveManPlayer")
+        {
+            EnemyController enemyController = target.GetComponent<EnemyController>();
+            if (enemyController != null)
+                enemyController.TakeDamage();
+        }
     }
     public void TakeDamage(){
         Health -= 10; 
@@ -65,15 +69,16 @@ public class EnemyController : MonoBehaviour
     }
     IEnumerator determineTarget(){
         while (true){
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
+            Debug.Log("Target "+ target); 
             if (CompareTag("CaveManPlayer")){
                 target = GetClosestTarget(new string[] { "TargetEnemy", "EnemyCaveMan" });
+                Debug.Log("Parent: " + target.parent.tag); 
             }
             if (CompareTag("EnemyCaveMan")){
                 target = GetClosestTarget(new string[] { "TargetPlayer", "CaveManPlayer" });
             }
         }
-        
     }
     Transform GetClosestTarget(string[] tags){
         Transform closest = null;
@@ -82,7 +87,6 @@ public class EnemyController : MonoBehaviour
             GameObject[] objs = GameObject.FindGameObjectsWithTag(tag);
             foreach (GameObject obj in objs){
                 float dist = Vector3.Distance(transform.position, obj.transform.position);
-                Debug.Log("Distance: " + dist); 
                 if (dist < minDist){
                     minDist = dist;
                     closest = obj.transform;

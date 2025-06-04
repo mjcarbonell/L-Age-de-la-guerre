@@ -9,6 +9,8 @@ TagManager:
   - TargetEnemy
   - TargetPlayer
   - PlayerTower
+  - CaveManPlayer
+  - EnemyCaveMan
   layers:
   - Default
   - TransparentFX

@@ -5,7 +5,7 @@ using TMPro;
 public class FaceObjectToCamera : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshPro potText; 
+    private TextMeshPro healthText; 
     [SerializeField]
     private EnemyController enemyController;
 
@@ -14,7 +14,7 @@ public class FaceObjectToCamera : MonoBehaviour
     }
     void Update(){
         // Changing text of Pot Text 
-        potText.text = $"Health: {enemyController.Health}"; 
+        healthText.text = $"{enemyController.Health}"; 
         Camera[] allCameras = Camera.allCameras;
         Camera closestCam = null;
         float closestDist = float.MaxValue; 
