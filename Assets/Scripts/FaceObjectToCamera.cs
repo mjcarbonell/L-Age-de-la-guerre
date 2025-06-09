@@ -6,15 +6,12 @@ public class FaceObjectToCamera : MonoBehaviour
 {
     [SerializeField]
     private TextMeshPro healthText; 
-    [SerializeField]
-    private EnemyController enemyController;
-
-    void Start(){
-        enemyController = transform.parent.GetComponent<EnemyController>();
+    public HealthScript healthScript; 
+    void Awake(){
+        healthScript = transform.parent.GetComponent<HealthScript>(); 
     }
     void Update(){
-        // Changing text of Pot Text 
-        healthText.text = $"{enemyController.Health}"; 
+        healthText.text = $"{healthScript.Health}"; 
         Camera[] allCameras = Camera.allCameras;
         Camera closestCam = null;
         float closestDist = float.MaxValue; 

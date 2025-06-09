@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public Transform spawner;
     public Transform enemySpawner;
     public GameObject cavemanPrefab; 
+    public GameObject spearThrowerPrefab; 
     public TextMeshProUGUI coinValue;
     private int currentCoins = 0; 
     void Start(){
@@ -27,8 +28,11 @@ public class GameManager : MonoBehaviour
             GameObject clickedCard = EventSystem.current.currentSelectedGameObject;
             Image imageComponent = clickedCard.GetComponent<Image>();
             if (imageComponent.sprite.name == "CaveManCard"){
-                // Debug.Log("Sprite name: " + imageComponent.sprite.name);
                 GameObject playerCaveman = Instantiate(cavemanPrefab, spawner.position,Quaternion.LookRotation(Vector3.back));
+                playerCaveman.tag = "CaveManPlayer";
+            }
+            if (imageComponent.sprite.name == "SpearThrowerCard"){
+                GameObject playerCaveman = Instantiate(spearThrowerPrefab, spawner.position,Quaternion.LookRotation(Vector3.back));
                 playerCaveman.tag = "CaveManPlayer";
             }
             clickedCard.SetActive(false);

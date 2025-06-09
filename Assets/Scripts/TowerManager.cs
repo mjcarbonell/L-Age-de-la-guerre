@@ -2,27 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement; 
 public class TowerManager : MonoBehaviour
 {
     [SerializeField]
     private int towerHealth = 5; 
-    public List<GameObject> healthBars = new List<GameObject>();
     public Slider healthSlider;
     [SerializeField]
-    private int current = 100; 
-    private int max = 100; 
-    public void TakeDamage(){
-        towerHealth -= 1; 
-        if (healthBars.Count > 0)
-        {
-            GameObject topBar = healthBars[healthBars.Count - 1];
-            healthBars.RemoveAt(healthBars.Count - 1);
-            Destroy(topBar);
-        }
-    }
+    private float current = 1; 
+    private float max = 1; 
     public void UpdateHealth(){
-        current -= 10; 
+        if (current <= 0f){
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); 
+        }
+        current -= 0.02f; 
         healthSlider.value = current / max ;
     }
+
 }

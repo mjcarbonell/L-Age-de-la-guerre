@@ -5,15 +5,16 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     public GameObject target;
-    // public TowerManager targetManager; 
     public NavMeshAgent agent;
     public float detectionRange = 10f;
     public float attackRange = 2f;
     public float attackCooldown = 2f;
     private float lastAttackTime;
     private Animator animator; 
-    public int Health = 100; 
-    
+    // public int Health = 100; 
+    [SerializeField]
+    private AudioSource audioSource;
+
     void Start(){
         animator = GetComponent<Animator>();
         lastAttackTime = -attackCooldown;
@@ -23,19 +24,22 @@ public class EnemyController : MonoBehaviour
     void Update(){
         if (target == null) return;
         float distance = Vector3.Distance(transform.position, target.transform.position);
+        // Debug.Log($"Distance {distance} attackRange {attackRange}"); 
         if (distance <= attackRange)    
         {
-            agent.SetDestination(transform.position); 
+            agent.isStopped = true; 
+            animator.SetFloat("speed", 0);
+
             if (Time.time - lastAttackTime >= attackCooldown)
             {
-                animator.SetTrigger("attack");
-                // towerManager.takeDamage();
+                StartCoroutine(attackProcess()); 
                 lastAttackTime = Time.time;
-                ApplyDamage(); 
+                
             }
         }
         else if (distance <= detectionRange)
         {
+            agent.isStopped = false;
             agent.SetDestination(target.transform.position);
             animator.SetFloat("speed", agent.velocity.magnitude);
         }
@@ -48,26 +52,32 @@ public class EnemyController : MonoBehaviour
         if (target == null) return;
         if (target.tag == "TargetEnemy" || target.tag == "TargetPlayer")
         {
-            
             TowerManager towerManager = target.transform.parent.GetComponent<TowerManager>(); 
-            towerManager.TakeDamage();
             towerManager.UpdateHealth();
         }
         else if (target.tag == "EnemyCaveMan" || target.tag == "CaveManPlayer")
         {
-            EnemyController enemyController = target.GetComponent<EnemyController>();
-            if (enemyController != null)
-                enemyController.TakeDamage();
+            HealthScript healthScript = target.GetComponent<HealthScript>(); 
+            if (healthScript != null) healthScript.TakeDamage(); 
+            // EnemyController enemyController = target.GetComponent<EnemyController>();
+            // if (enemyController != null) enemyController.TakeDamage();
         }
     }
-    public void TakeDamage(){
-        Health -= 10; 
-        if (Health == 0 ){
-            Destroy(this, 2f); 
-            gameObject.SetActive(false); // Deactivates the GameObject immediately
-            gameObject.GetComponent<Collider>().enabled = false; // Disables collider (collision)
-            gameObject.GetComponent<Renderer>().enabled = false; // Hides the mesh/appearance
-        }
+    // public void TakeDamage(){
+    //     Health -= 10; 
+    //     if (Health == 0 ){
+    //         Destroy(this, 2f); 
+    //         gameObject.SetActive(false); // Deactivates the GameObject immediately
+    //         gameObject.GetComponent<Collider>().enabled = false; // Disables collider (collision)
+    //         gameObject.GetComponent<Renderer>().enabled = false; // Hides the mesh/appearance
+    //     }
+    // }
+    IEnumerator attackProcess(){
+        animator.SetTrigger("attack");
+        yield return new WaitForSeconds(0.5f);
+        ApplyDamage(); 
+        audioSource.Play(); 
+
     }
     IEnumerator determineTarget(){
         while (true){
