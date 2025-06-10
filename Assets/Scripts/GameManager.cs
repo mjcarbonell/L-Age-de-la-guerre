@@ -49,7 +49,10 @@ public class GameManager : MonoBehaviour
         // while (true){
             yield return new WaitForSeconds(2f);
             GameObject enemyCaveman = Instantiate(cavemanPrefab, enemySpawner.position, Quaternion.LookRotation(Vector3.forward));
-            enemyCaveman.tag = "EnemyCaveMan"; 
+            EnemyController enemyController = enemyCaveman.GetComponent<EnemyController>();
+            enemyController.Head.tag = "EnemyCaveMan"; 
+            
+            // enemyCaveman.tag = "EnemyCaveMan"; 
         // }
     }
     

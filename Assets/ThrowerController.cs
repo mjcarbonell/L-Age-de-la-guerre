@@ -11,7 +11,9 @@ public class ThrowerController : MonoBehaviour
     public float attackCooldown = 2f;
     private float lastAttackTime;
     private Animator animator; 
-    // public int Health = 100; 
+    public GameObject spearPrefab;
+    public Transform spearSpawnPoint; // empty GameObject placed at hand or chest
+    public float launchForce = 700f; 
     [SerializeField]
     private AudioSource audioSource;
 
@@ -61,21 +63,17 @@ public class ThrowerController : MonoBehaviour
             if (healthScript != null) healthScript.TakeDamage();
         }
     }
-    // public void TakeDamage(){
-    //     Health -= 10; 
-    //     if (Health == 0 ){
-    //         Destroy(this, 2f); 
-    //         gameObject.SetActive(false); // Deactivates the GameObject immediately
-    //         gameObject.GetComponent<Collider>().enabled = false; // Disables collider (collision)
-    //         gameObject.GetComponent<Renderer>().enabled = false; // Hides the mesh/appearance
-    //     }
-    // }
     IEnumerator attackProcess(){
         animator.SetTrigger("attack");
         yield return new WaitForSeconds(0.5f);
-        ApplyDamage(); 
+        // ApplyDamage(); 
         audioSource.Play(); 
-
+        if (spearPrefab != null && spearSpawnPoint != null){
+            GameObject spear = Instantiate(spearPrefab, spearSpawnPoint.position, spearSpawnPoint.rotation);
+            HoningSpear honingSpear = spear.GetComponent<HoningSpear>();
+            honingSpear.target = target;
+             
+        }
     }
     IEnumerator determineTarget(){
         while (true){

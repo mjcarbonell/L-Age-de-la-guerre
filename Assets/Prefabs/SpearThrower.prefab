@@ -385,6 +385,37 @@ Transform:
   - {fileID: 4929221187984020796}
   m_Father: {fileID: 1480328588733769026}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2987087198958108498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 650714464520538737}
+  m_Layer: 0
+  m_Name: SpearSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &650714464520538737
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987087198958108498}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.38681012, y: -0.00000015925757, z: 0.000000090747655, w: 0.9221594}
+  m_LocalPosition: {x: 0.2701168, y: 1.289, z: 1.091}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1894900949183954344}
+  m_LocalEulerAnglesHint: {x: -45.512, y: 0, z: 0}
 --- !u!1 &3011177738241233509
 GameObject:
   m_ObjectHideFlags: 0
@@ -1396,6 +1427,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 650714464520538737}
   - {fileID: 6086126637635829606}
   - {fileID: 8312709523058255162}
   - {fileID: 3474124798118190696}
@@ -1416,8 +1448,11 @@ MonoBehaviour:
   target: {fileID: 0}
   agent: {fileID: 6007948500884495450}
   detectionRange: 10000
-  attackRange: 2
+  attackRange: 1000
   attackCooldown: 2
+  spearPrefab: {fileID: 6972907106747768199, guid: c407198f8836ceb41b0c2efe02f19f63, type: 3}
+  spearSpawnPoint: {fileID: 650714464520538737}
+  launchForce: 700
   audioSource: {fileID: 2544460764137090757}
 --- !u!195 &6007948500884495450
 NavMeshAgent:

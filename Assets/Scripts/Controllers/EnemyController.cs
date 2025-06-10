@@ -5,22 +5,20 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     public GameObject target;
+    public GameObject Head; 
     public NavMeshAgent agent;
     public float detectionRange = 10f;
     public float attackRange = 2f;
     public float attackCooldown = 2f;
     private float lastAttackTime;
     private Animator animator; 
-    // public int Health = 100; 
     [SerializeField]
     private AudioSource audioSource;
-
     void Start(){
         animator = GetComponent<Animator>();
         lastAttackTime = -attackCooldown;
         StartCoroutine(determineTarget()); 
     }
-
     void Update(){
         if (target == null) return;
         float distance = Vector3.Distance(transform.position, target.transform.position);
@@ -59,19 +57,8 @@ public class EnemyController : MonoBehaviour
         {
             HealthScript healthScript = target.GetComponent<HealthScript>(); 
             if (healthScript != null) healthScript.TakeDamage(); 
-            // EnemyController enemyController = target.GetComponent<EnemyController>();
-            // if (enemyController != null) enemyController.TakeDamage();
         }
     }
-    // public void TakeDamage(){
-    //     Health -= 10; 
-    //     if (Health == 0 ){
-    //         Destroy(this, 2f); 
-    //         gameObject.SetActive(false); // Deactivates the GameObject immediately
-    //         gameObject.GetComponent<Collider>().enabled = false; // Disables collider (collision)
-    //         gameObject.GetComponent<Renderer>().enabled = false; // Hides the mesh/appearance
-    //     }
-    // }
     IEnumerator attackProcess(){
         animator.SetTrigger("attack");
         yield return new WaitForSeconds(0.5f);

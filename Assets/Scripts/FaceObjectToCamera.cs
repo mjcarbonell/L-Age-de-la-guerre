@@ -11,7 +11,7 @@ public class FaceObjectToCamera : MonoBehaviour
         healthScript = transform.parent.GetComponent<HealthScript>(); 
     }
     void Update(){
-        healthText.text = $"{healthScript.Health}"; 
+            healthText.text = $"{healthScript.Health}"; 
         Camera[] allCameras = Camera.allCameras;
         Camera closestCam = null;
         float closestDist = float.MaxValue; 
