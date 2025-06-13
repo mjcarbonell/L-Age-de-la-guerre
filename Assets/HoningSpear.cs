@@ -12,7 +12,7 @@ public class HoningSpear : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Destroy(gameObject, lifeTime); // prevent infinite spears
+        Destroy(gameObject, lifeTime); 
     }
 
     void FixedUpdate()
@@ -30,16 +30,17 @@ public class HoningSpear : MonoBehaviour
         rb.velocity = transform.forward * speed;
     }
     void OnTriggerEnter(Collider other){
-        // Debug.Log($"target name: {target.name} trigger hit tag: {other.transform.name}");
-        if(target.name == other.transform.name){
-            Debug.Log("here");
+        
+        if(target.name == other.transform.name && target.tag == other.transform.tag){
+            // Debug.Log($"target tag: {target.tag} trigger tag {other.transform.tag}"); 
+            // Debug.Log($"target name: {target.name} trigger hit name: {other.transform.name}");
             ApplyDamage(); 
             Destroy(gameObject, 0.1f); 
         }
-        else if(target.name ==other.transform.parent.name){
-            Debug.Log("or here");
+        else if(other.transform.parent != null && target.name == other.transform.parent.name){
+            // Debug.Log($"target name: {target.name} trigger hit tag: {other.transform.name}");
             ApplyDamage();
-            Destroy(gameObject, 0.1f); 
+            Destroy(gameObject, 0.1f);
         }
     }
     public void ApplyDamage(){

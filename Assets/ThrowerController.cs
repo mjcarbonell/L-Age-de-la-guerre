@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class ThrowerController : MonoBehaviour
 {
     public GameObject target;
+    public GameObject Head; 
     public NavMeshAgent agent;
     public float detectionRange = 10f;
     public float attackRange = 2f;
@@ -79,10 +80,10 @@ public class ThrowerController : MonoBehaviour
         while (true){
             yield return new WaitForSeconds(1f);
             // Debug.Log("Target "+ target); 
-            if (CompareTag("CaveManPlayer")){
+            if (Head.tag == "CaveManPlayer"){
                 target = GetClosestTarget(new string[] { "TargetEnemy", "EnemyCaveMan" });
             }
-            if (CompareTag("EnemyCaveMan")){
+            if (Head.tag == "EnemyCaveMan"){
                 target = GetClosestTarget(new string[] { "TargetPlayer", "CaveManPlayer" });
             }
         }

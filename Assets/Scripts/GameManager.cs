@@ -29,11 +29,14 @@ public class GameManager : MonoBehaviour
             Image imageComponent = clickedCard.GetComponent<Image>();
             if (imageComponent.sprite.name == "CaveManCard"){
                 GameObject playerCaveman = Instantiate(cavemanPrefab, spawner.position,Quaternion.LookRotation(Vector3.back));
-                playerCaveman.tag = "CaveManPlayer";
+                EnemyController enemyController = playerCaveman.GetComponent<EnemyController>(); 
+                enemyController.Head.tag = "CaveManPlayer";
             }
             if (imageComponent.sprite.name == "SpearThrowerCard"){
                 GameObject playerCaveman = Instantiate(spearThrowerPrefab, spawner.position,Quaternion.LookRotation(Vector3.back));
-                playerCaveman.tag = "CaveManPlayer";
+                // playerCaveman.tag = "CaveManPlayer";
+                ThrowerController throwerController = playerCaveman.GetComponent<ThrowerController>();
+                throwerController.Head.tag = "CaveManPlayer"; 
             }
             clickedCard.SetActive(false);
         }
@@ -51,7 +54,6 @@ public class GameManager : MonoBehaviour
             GameObject enemyCaveman = Instantiate(cavemanPrefab, enemySpawner.position, Quaternion.LookRotation(Vector3.forward));
             EnemyController enemyController = enemyCaveman.GetComponent<EnemyController>();
             enemyController.Head.tag = "EnemyCaveMan"; 
-            
             // enemyCaveman.tag = "EnemyCaveMan"; 
         // }
     }

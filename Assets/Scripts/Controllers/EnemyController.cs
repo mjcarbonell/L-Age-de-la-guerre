@@ -55,7 +55,7 @@ public class EnemyController : MonoBehaviour
         }
         else if (target.tag == "EnemyCaveMan" || target.tag == "CaveManPlayer")
         {
-            HealthScript healthScript = target.GetComponent<HealthScript>(); 
+            HealthScript healthScript = target.transform.parent.GetComponent<HealthScript>(); 
             if (healthScript != null) healthScript.TakeDamage(); 
         }
     }
@@ -69,11 +69,10 @@ public class EnemyController : MonoBehaviour
     IEnumerator determineTarget(){
         while (true){
             yield return new WaitForSeconds(1f);
-            // Debug.Log("Target "+ target); 
-            if (CompareTag("CaveManPlayer")){
+            if ( Head.tag == "CaveManPlayer"){
                 target = GetClosestTarget(new string[] { "TargetEnemy", "EnemyCaveMan" });
             }
-            if (CompareTag("EnemyCaveMan")){
+            if ( Head.tag == "EnemyCaveMan"){
                 target = GetClosestTarget(new string[] { "TargetPlayer", "CaveManPlayer" });
             }
         }
