@@ -40,6 +40,12 @@ public class EnemyController : MonoBehaviour
             agent.isStopped = false;
             agent.SetDestination(target.transform.position);
             animator.SetFloat("speed", agent.velocity.magnitude);
+            if (agent.velocity.sqrMagnitude > 0.1f) {
+            Vector3 lookDirection = agent.velocity.normalized;
+            lookDirection.y = 0;
+            if (lookDirection != Vector3.zero)
+                transform.rotation = Quaternion.LookRotation(lookDirection);
+            }
         }
         else
         {

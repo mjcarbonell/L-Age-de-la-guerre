@@ -45,6 +45,12 @@ public class ThrowerController : MonoBehaviour
             agent.isStopped = false;
             agent.SetDestination(target.transform.position);
             animator.SetFloat("speed", agent.velocity.magnitude);
+            if (agent.velocity.sqrMagnitude > 0.1f) {
+            Vector3 lookDirection = agent.velocity.normalized;
+            lookDirection.y = 0;
+            if (lookDirection != Vector3.zero)
+                transform.rotation = Quaternion.LookRotation(lookDirection);
+            }
         }
         else
         {
@@ -65,6 +71,10 @@ public class ThrowerController : MonoBehaviour
         }
     }
     IEnumerator attackProcess(){
+        Vector3 direction = (target.transform.position - transform.position).normalized;
+        direction.y = 0;
+        if (direction != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(direction);
         animator.SetTrigger("attack");
         yield return new WaitForSeconds(0.5f);
         // ApplyDamage(); 

@@ -1450,7 +1450,7 @@ MonoBehaviour:
   Head: {fileID: 9069707918191859281}
   agent: {fileID: 6007948500884495450}
   detectionRange: 10000
-  attackRange: 1000
+  attackRange: 25
   attackCooldown: 2
   spearPrefab: {fileID: 6972907106747768199, guid: c407198f8836ceb41b0c2efe02f19f63, type: 3}
   spearSpawnPoint: {fileID: 650714464520538737}
